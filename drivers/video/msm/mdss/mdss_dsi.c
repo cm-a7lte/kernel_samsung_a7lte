@@ -1393,9 +1393,6 @@ static int mdss_dsi_event_handler(struct mdss_panel_data *pdata,
 		rc = mdss_dsi_register_recovery_handler(ctrl_pdata,
 			(struct mdss_intf_recovery *)arg);
 		break;
-	case MDSS_EVENT_INTF_RESTORE:
-		mdss_dsi_ctrl_phy_restore(ctrl_pdata);
-		break;
 	case MDSS_EVENT_FB_REGISTERED:
 		if (ctrl_pdata->registered) {
 			pr_debug("%s : event=%d, calling panel registered callback\n", __func__, event);
