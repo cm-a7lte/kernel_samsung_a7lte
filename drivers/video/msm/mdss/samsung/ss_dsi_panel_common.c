@@ -405,7 +405,7 @@ void mdss_samsung_panel_init(struct device_node *np,
 	mdss_panel_attach_set(ctrl_pdata, true);
 
 	/* Set init brightness level */
-	vdd_data.init_bl_level = DEFAULT_BRIGHTNESS;
+	vdd_data.bl_level = DEFAULT_BRIGHTNESS;
 }
 
 void mdss_samsung_dsi_panel_registered(struct mdss_panel_data *pdata)
@@ -942,21 +942,12 @@ int mdss_samsung_panel_on_post(struct mdss_panel_data *pdata)
 	if (!IS_ERR_OR_NULL(vdd->panel_func.samsung_panel_on_post))
 		vdd->panel_func.samsung_panel_on_post(ctrl);
 
-	/*
-	*	To prevent sudden splash at wakeup
-	*	init_bl_level value is updated at mdss_samsung_panel_off_post().
-	*	First brightness value is set at mdss_fb_probe() function like below.
-	*	mfd->bl_level = DEFAULT_BRIGHTNESS;
-	*/
-	if (vdd->bl_level != 0) /* if bl level changed during blank or ready to unblank mode, make bl work as latest saved bl level*/
-		vdd->init_bl_level = vdd->bl_level;
-
 	/* Recovery Mode : Set some default brightness */
 	if (vdd->recovery_boot_mode)
-		vdd->init_bl_level = DEFAULT_BRIGHTNESS;
+		vdd->bl_level = DEFAULT_BRIGHTNESS;
 
-	if ((vdd->ctrl_dsi[DISPLAY_1]->bklt_ctrl == BL_DCS_CMD) && (vdd->init_bl_level))
-		mdss_samsung_brightness_dcs(ctrl, vdd->init_bl_level);
+	if ((vdd->ctrl_dsi[DISPLAY_1]->bklt_ctrl == BL_DCS_CMD))
+		mdss_samsung_brightness_dcs(ctrl, vdd->bl_level);
 
 	if (vdd->support_mdnie_lite)
 		update_dsi_tcon_mdnie_register(vdd);
@@ -1023,11 +1014,6 @@ int mdss_samsung_panel_off_post(struct mdss_panel_data *pdata)
 
 	if (!IS_ERR_OR_NULL(vdd->panel_func.samsung_panel_off_post))
 		vdd->panel_func.samsung_panel_off_post(ctrl);
-
-	/* Set init_bl_level for adb shell stop/start */
-	mutex_lock(&vdd->mfd_dsi[DISPLAY_1]->bl_lock);
-	vdd->init_bl_level = vdd->mfd_dsi[DISPLAY_1]->bl_level;
-	mutex_unlock(&vdd->mfd_dsi[DISPLAY_1]->bl_lock);
 
 	return ret;
 }
@@ -1798,6 +1784,8 @@ void mdss_samsung_brightness_tft_pwm(struct mdss_dsi_ctrl_pdata *ctrl, int level
 	pinfo = &(ctrl->panel_data.panel_info);
 	if (pinfo->blank_state == MDSS_PANEL_BLANK_BLANK)
 		return;
+
+	vdd->bl_level = level;
 
 	if (vdd->panel_func.samsung_brightness_tft_pwm)
 		vdd->panel_func.samsung_brightness_tft_pwm(ctrl,level);

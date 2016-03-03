@@ -380,13 +380,41 @@ config MACH_A73G_EUR_OPEN
 		bool "Samsung A73G EUR Open"
 		help
 		  Support for Samsung A73G Eur Open device.
-		  
+
+config MACH_A7_CHN_CTC
+	depends on SEC_A7_PROJECT
+		default n
+		bool "Samsung A7 CHN Ctc"
+		help
+		  Support for Samsung A7 China Ctc device.
+
 config MACH_A7_EUR_OPEN
   depends on SEC_A7_PROJECT
 	  default n
 	  bool "Samsung A7 EUR Open"
 	  help
 	  Support for Samsung A7 Eur Open device.
+
+config MACH_A7_CHN_OPEN
+  depends on SEC_A7_PROJECT
+	  default n
+	  bool "Samsung A7 CHN Open"
+	  help
+	  Support for Samsung A7 China Open device.
+
+config MACH_A7_CHN_TW
+	depends on SEC_A7_PROJECT
+		default n
+		bool "Samsung A7 CHN TW"
+		help
+		  Support for Samsung A7 China TW device.
+
+config MACH_A7_KOR_OPEN
+   depends on SEC_A7_PROJECT
+          default n
+          bool "Samsung A7 KOR Open"
+          help
+          Support for Samsung A7 KOR Open device.
 
 config SEC_A3_PROJECT
     depends on ARCH_MSM8916
@@ -1540,6 +1568,22 @@ config FSM9900_GSM_NL
 	  The DIQ functionality is disabled and the UART functionality is enabled.
 	  The serial port connection can be established to communicate with the
 	  GSM NL module.
+
+config RTC_AUTO_PWRON
+        bool "RTC Auto Power on PM8x16 PMICs"
+        depends on ARCH_MSM8916
+        default n
+        help
+          Support for the auto power on alarm on the PM8X16 PMIC.
+          Say Y if you want to enable this feature.
+
+config RTC_AUTO_PWRON_PARAM
+        bool "RTC Auto Power on with param PM8x16 PMICs"
+        depends on RTC_AUTO_PWRON
+        default n
+        help
+          This option is used to prevent invalid RTC alarm power on.
+          Say Y if you want to enable this feature.
 
 config SAMSUNG_PRODUCT_SHIP
         bool "set up for product shipping"

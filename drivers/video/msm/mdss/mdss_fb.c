@@ -725,7 +725,7 @@ static int mdss_fb_probe(struct platform_device *pdev)
 	mfd->mdp_fb_page_protection = MDP_FB_PAGE_PROTECTION_WRITECOMBINE;
 
 	mfd->ext_ad_ctrl = -1;
-	mfd->bl_level = 0;
+	mfd->bl_level = mfd->panel_info->bl_max / 2;
 	mfd->bl_scale = 1024;
 	mfd->bl_min_lvl = 30;
 	mfd->ad_bl_level = 0;
@@ -1309,8 +1309,10 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 				if (mfd->disp_thread)
 					mdss_fb_stop_disp_thread(mfd);
 				if( !mfd->panel_info->panel_dead){
+					int current_bl = mfd->bl_level;
 					mdss_fb_set_backlight(mfd, 0);
 					mfd->bl_updated = 0;
+					mfd->unset_bl_level = current_bl;
 				}
 			}
 			mfd->panel_power_state = req_power_state;

@@ -57,11 +57,14 @@ ifeq ($(CONFIG_SEC_A7_PROJECT),y)
 		dtb-y += msm8939-sec-a7-ctc-r04.dtb
 		dtb-y += msm8939-sec-a7-ctc-r05.dtb
 		dtb-y += msm8939-sec-a7-ctc-r06.dtb
+		dtb-y += msm8939-sec-a7-ctc-r07.dtb
 	else ifeq ($(CONFIG_MACH_A7_KOR_OPEN),y)
 		dtb-y += msm8939-sec-a7-kor-r05.dtb
 		dtb-y += msm8939-sec-a7-kor-r06.dtb
+		dtb-y += msm8939-sec-a7-kor-r08.dtb
 	else ifeq ($(CONFIG_MACH_A7_CHN_TW),y)
 		dtb-y += msm8939-sec-a7-tw-r00.dtb
+		dtb-y += msm8939-sec-a7-tw-r01.dtb
 	else
 		dtb-y += msm8939-sec-a7-chn-r01.dtb
 		dtb-y += msm8939-sec-a7-chn-r03.dtb

@@ -268,3 +268,10 @@ config CHARGER_NOTIFY_SENSOR
 	help
 	  Say Y here if you need to know the status if charging or not.
 
+config SENSORS_ACCELEROMETER_2G
+	depends on SENSORS_BMA2X2
+	tristate "Set 2G BMA2X2 accelerometer sensor"
+	default n
+	help
+	  This config is temporary option for L OS upgrade models.
+	  If you want to enable this option, you must enable HAL 2G feature also.

@@ -237,6 +237,24 @@ static int __init loglevel(char *str)
 
 early_param("loglevel", loglevel);
 
+#ifdef CONFIG_ARCH_MSM8939
+/* check uart boot */
+int jig_boot_clk_limit = 0;
+static int __init jig_status_phone(char *str)
+{
+	int jig_val;
+
+	if(get_option(&str, &jig_val)) {
+		jig_boot_clk_limit |= jig_val;
+		printk(KERN_INFO "%s = %d\n", __func__, jig_boot_clk_limit);
+		return 0;
+	}
+
+	return -EINVAL;
+}
+early_param("uart_dbg", jig_status_phone);
+#endif
+
 /* Change NUL term back to "=", to make "param" the whole string. */
 static int __init repair_env_string(char *param, char *val, const char *unused)
 {

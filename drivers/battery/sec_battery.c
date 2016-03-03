@@ -2216,11 +2216,16 @@ static void sec_bat_get_battery_info(
 		then ignore FG SOC, and report (previous SOC +1)% */
 	if (battery->status != POWER_SUPPLY_STATUS_FULL) {
 		battery->capacity = value.intval;
-	} else if ((battery->capacity != 100) &&
-		   ((c_ts.tv_sec - old_ts.tv_sec) >= 60)) {
-		battery->capacity++;
-		pr_info("%s : forced full-charged sequence for the capacity(%d)\n",
-			__func__, battery->capacity);
+	} else if ((c_ts.tv_sec - old_ts.tv_sec) >= 30) {
+		if (battery->capacity != 100) {
+			battery->capacity++;
+			pr_info("%s : forced full-charged sequence for the capacity(%d)\n",
+				__func__, battery->capacity);
+		}
+		/* update capacity max */
+		value.intval = battery->capacity;
+		psy_do_property(battery->pdata->fuelgauge_name, set,
+			POWER_SUPPLY_PROP_CHARGE_FULL, value);
 		old_ts = c_ts;
 	}
 #else
@@ -3745,7 +3750,7 @@ static int sec_bat_set_property(struct power_supply *psy,
 			SEC_BATTERY_CABLE_SOURCE_EXTERNAL)) {
 
 			wake_lock(&battery->cable_wake_lock);
-#if defined(CONFIG_CHARGER_RT5033)
+#if defined(CONFIG_CHARGER_RT5033) && defined(CONFIG_SM5504_MUIC)
                 if(current_cable_type != POWER_SUPPLY_TYPE_UNKNOWN &&
                         current_cable_type != POWER_SUPPLY_TYPE_BATTERY)
 			queue_delayed_work(battery->monitor_wqueue,

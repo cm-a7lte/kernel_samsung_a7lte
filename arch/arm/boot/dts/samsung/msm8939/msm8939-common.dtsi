@@ -20,6 +20,7 @@
 		smd1 = &smdtty_apps_fm;
 		smd2 = &smdtty_apps_riva_bt_acl;
 		smd3 = &smdtty_apps_riva_bt_cmd;
+		smd4 = &smdtty_mbalbridge;
 		smd5 = &smdtty_apps_riva_ant_cmd;
 		smd6 = &smdtty_apps_riva_ant_data;
 		smd7 = &smdtty_data1;
@@ -247,6 +248,11 @@
 		smdtty_apps_riva_bt_cmd: qcom,smdtty-apps-riva-bt-cmd {
 			qcom,smdtty-remote = "wcnss";
 			qcom,smdtty-port-name = "APPS_RIVA_BT_CMD";
+		};
+
+		smdtty_mbalbridge: qcom,smdtty-mbalbridge {
+			qcom,smdtty-remote = "modem";
+			qcom,smdtty-port-name = "MBALBRIDGE";
 		};
 
 		smdtty_apps_riva_ant_cmd: smdtty-apps-riva-ant-cmd {
@@ -490,8 +496,10 @@
 		clocks = <&clock_rpm clk_xo_wlan_clk>,
 			 <&clock_rpm clk_rf_clk2>,
 			 <&clock_debug clk_gcc_debug_mux>,
-			 <&clock_gcc clk_wcnss_m_clk>;
-		clock-names = "xo", "rf_clk", "measure", "wcnss_debug";
+			 <&clock_gcc clk_wcnss_m_clk>,
+			 <&clock_gcc clk_gcc_snoc_qosgen_clk>;
+		clock-names = "xo", "rf_clk", "measure", "wcnss_debug",
+				"snoc_qosgen";
 
 		qcom,has-autodetect-xo;
 		qcom,is-pronto-vt;

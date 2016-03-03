@@ -266,6 +266,14 @@ void gic_show_pending_irq(void)
 			pr_err("Pending irqs[%d] %lx\n", j, pending[j]);
 		}
 	}
+	if (pending[6] == 0x800000) { // pending irq is cpu_bwmon
+		pr_err("Clear Pending irqs 215\n");
+		writel_relaxed(pending[6], base +
+		GIC_DIST_PENDING_CLEAR + 6 * 4);
+		pending[6] = readl_relaxed(base +
+		GIC_DIST_PENDING_SET + 6 * 4);
+		pr_err("Read again : pending irqs[6] %lx\n", pending[6]);
+	}
 }
 
 static void gic_show_resume_irq(struct gic_chip_data *gic)

@@ -944,7 +944,6 @@ static void mdss_panel_init(struct samsung_display_driver_data *vdd)
 	vdd->panel_func.samsung_hbm_gamma = mdss_hbm_gamma;
 	vdd->panel_func.samsung_hbm_etc = mdss_hbm_etc;
 
-	vdd->bl_level = 255;
 	/* OSC TE Fitting */
 	vdd->panel_func.samsung_osc_te_fitting = samsung_osc_te_fitting;
 	vdd->te_fitting_info.lut[0] = osc_fctrl_lut;

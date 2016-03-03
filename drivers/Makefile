@@ -172,5 +172,3 @@ obj-$(CONFIG_SENSORS_SSC)	+= sensors/
 obj-$(CONFIG_MSM_VIBRATOR)      += motor/
 obj-$(CONFIG_VIBETONZ)		+= motor/
 
-# SecFilter Driver
-obj-$(CONFIG_SEC_NET_FILTER)	+= secfilter/

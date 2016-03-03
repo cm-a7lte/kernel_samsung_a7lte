@@ -936,6 +936,15 @@ config USB_NCM_SUPPORT_MTU_CHANGE
 	   If you enable this option,
 	   NCM MTU Change will be able to be used.
 
+config USB_LOCK_SUPPORT_FOR_MDM
+	boolean "Samsung USB_LOCK function for MDM"
+	depends on USB_G_ANDROID
+	help
+		Support USB lock for SDS MDM function.
+		If you enable this option,
+		USB is not connected to the work in office.
+		Of employees who have installed MDM(SDS).
+
 if TTY
 
 config USB_CDC_COMPOSITE

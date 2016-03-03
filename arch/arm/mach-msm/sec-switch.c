@@ -314,9 +314,11 @@ void sm5502_callback(enum cable_type_t cable_type, int attached)
 #if defined(CONFIG_USB_HOST_NOTIFY)
 		if (attached) {
 			send_otg_notify(n, NOTIFY_EVENT_DRIVE_VBUS, 1);
+			msleep(100);
 			send_otg_notify(n, NOTIFY_EVENT_HOST, 1);
 		} else {
 			send_otg_notify(n, NOTIFY_EVENT_HOST, 0);
+			msleep(100);
 			send_otg_notify(n, NOTIFY_EVENT_DRIVE_VBUS, 0);
 		}
 #endif
